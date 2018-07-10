@@ -12,7 +12,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-public class Findet {
+class Findet {
     private int numberOfJob;
     private int numberOfJava;
     private List<String> lista;
@@ -23,24 +23,24 @@ public class Findet {
         refreshMe();
     }
 
-    public int getNumberOfJob() {
+    int getNumberOfJob() {
         return numberOfJob;
     }
 
-    public int getNumberOfJava() {
+    int getNumberOfJava() {
         return numberOfJava;
     }
 
-    public List<String> getLista() {
+     List<String> getLista() {
         return lista;
     }
 
-    public List<String> getJavaList() {
+    List<String> getJavaList() {
         return javaList;
     }
 
     //na podstawie listy wszystkich ofert, wypluwa liste tych, ktore zawieraja slowo "java"
-    public static List<String> javaList(List<String> list) {
+    static List<String> javaList(List<String> list) {
         List<String> javaList = new ArrayList<String>();
         for (String el : list) {
             if (el.toLowerCase().contains("java".toLowerCase())) {
@@ -51,7 +51,7 @@ public class Findet {
     }
 
     //wypisuje zawaartosc listy
-    public static void printout(List<String> lista) {
+    static void printout(List<String> lista) {
         for (String el : lista) {
             System.out.println(el);
         }
@@ -60,7 +60,7 @@ public class Findet {
 
 
     //pobiera
-    public void refreshMe()  {
+    void refreshMe()  {
 
         try {
             List<String> lista = searchMe();
@@ -77,7 +77,7 @@ public class Findet {
 
 
 
-    public static int countJava(List<String> listOfJobs) {
+    static int countJava(List<String> listOfJobs) {
         int counter = 0;
         for (String line : listOfJobs) {
 
@@ -89,7 +89,7 @@ public class Findet {
         return counter;
     }
 
-    public static List<String> searchMe() throws Exception {
+     static List<String> searchMe() throws Exception {
         // configure the SSLContext with a TrustManager
         SSLContext ctx = SSLContext.getInstance("TLS");
         ctx.init(new KeyManager[0], new TrustManager[]{new DefaultTrustManager()}, new SecureRandom());
@@ -97,8 +97,8 @@ public class Findet {
         String htmlCode = Jsoup.connect("https://hemmersbach.com/career/browse-jobs?country=Poland&location=Bielany%20Wroclawskie%40%40%40Wroclaw&skillProfile=IT&").get().html();
         org.jsoup.nodes.Document doc = (org.jsoup.nodes.Document) Jsoup.parse(htmlCode);
         BufferedReader bufreader = new BufferedReader(new StringReader(htmlCode));
-        String line = new String();
-        String className = new String("<h3 class=\"title\">");
+        String line;
+        String className = "<h3 class=\"title\">";
         List<String> listOfJobs = new ArrayList<String>();
 
 
@@ -107,7 +107,9 @@ public class Findet {
                 listOfJobs.add(line.replace("           <h3 class=\"title\">", "").replace("</h3>", ""));
             }
         }
+        bufreader.close();
         return listOfJobs;
+
     }
 
 
